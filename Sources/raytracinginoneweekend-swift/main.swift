@@ -1,6 +1,18 @@
 import Foundation
 
+func hit_sphere(center: Vec3, radius: Float, r: Ray) -> Bool {
+    let oc = r.origin() - center
+    let a = dot(v1: r.direction(), v2: r.direction())
+    let b = 2 * dot(v1: oc, v2: r.direction())
+    let c = dot(v1: oc, v2: oc) - radius * radius
+    let discriminant = b * b - 4 * a * c
+    return (discriminant > 0)
+}
+
 func color(r: Ray) -> Vec3 {
+    if (hit_sphere(center: Vec3(e0: 0.0, e1: 0.0, e2: -1.0), radius: 0.5, r: r)) {
+        return Vec3(e0: 1.0, e1: 0.0, e2: 0.0)
+    }
     let unitDirection = unitVector(v: r.direction())
     let t = 0.5 * (unitDirection.y() + 1.0)
 
